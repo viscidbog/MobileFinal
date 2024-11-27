@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     if (username === "user" && password === "password") {
-      navigation.navigate("MainApp"); // Redirect to main app after login
+      setIsLoggedIn(true);
     } else {
       Alert.alert("Väärä salasana tai käyttäjätunnus", "Tarkista tiedot.");
     }

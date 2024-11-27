@@ -48,7 +48,9 @@ export default function App() {
         {isLoggedIn ? (
           <Stack.Screen name="MainApp" component={MainApp} />
         ) : (
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="LoginScreen">
+            {() => <LoginScreen setIsLoggedIn={setIsLoggedIn} />}
+          </Stack.Screen>
         )}
       </Stack.Navigator>
     </NavigationContainer>

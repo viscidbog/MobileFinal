@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import LoginScreen from "./Screens/LoginScreen";
+import RecipeScreen from "./Screens/RecipeScreen";
 import ListScreen from "./Screens/ListScreen";
 import HomeScreen from "./Screens/HomeScreen";
+import NoteScreen from "./Screens/NoteScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
+import SingleRecipeScreen from "./Screens/SingleRecipeScreen";
 
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -13,6 +16,35 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// Stack navigator for the various screens needed for the list of notes
+function ListStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ListScreen"
+        component={ListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RecipeScreen"
+        component={RecipeScreen}
+        options={{ title: "Lisää resepti:" }}
+      />
+      <Stack.Screen
+        name="NoteScreen"
+        component={NoteScreen}
+        options={{ title: "Lisää muistiinpano:" }}
+      />
+      <Stack.Screen
+        name="SingleRecipeScreen"
+        component={SingleRecipeScreen}
+        options={{ title: "Resepti" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Main app navigator for the tab bar
 function MainApp() {
   return (
     <Tab.Navigator
@@ -33,14 +65,17 @@ function MainApp() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Muistiinpanot" component={ListScreen} />
+      <Tab.Screen name="Muistiinpanot" component={ListStack} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
     </Tab.Navigator>
   );
 }
 
+// The actual app component, which is separate so the login page can 
+// hide the main app
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // State to check login status
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <NavigationContainer>

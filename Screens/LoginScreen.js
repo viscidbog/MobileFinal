@@ -6,7 +6,7 @@ export default function LoginScreen({ setIsLoggedIn }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    if (username === "user" && password === "password") {
+    if (username === "User" && password === "1234") {
       setIsLoggedIn(true);
     } else {
       Alert.alert("Väärä salasana tai käyttäjätunnus", "Tarkista tiedot.");

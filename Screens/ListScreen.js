@@ -15,11 +15,11 @@ import {
   FlatList,
   Button,
   TextInput,
-  ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 
-export default function ListScreen() {
+export default function ListScreen({ navigation }) {
   // State to hold the list of items and item keys
   const [items, setItems] = useState([]);
   const [itemKeys, setItemKeys] = useState([]);
@@ -27,11 +27,18 @@ export default function ListScreen() {
   // Get the database from the firebase app
   const database = getDatabase(app);
 
-  // State to hold the note
-  const [note, setNote] = useState({
-    title: "",
-    content: "",
-  });
+
+  // Handle navigating to the RecipeScreen
+  const handleAddNote = (screen) => {
+    navigation.navigate(screen, {
+      onSave: saveNote, // Pass the saveRecipeNote function as a parameter
+    });
+  };
+
+  // Save a note
+  const saveNote = (newNote) => {
+    handleSave(newNote.title, newNote.content);
+  };
 
   // Fetch items from firebase
   useEffect(() => {
@@ -48,16 +55,17 @@ export default function ListScreen() {
     });
   }, []);
 
-  // Save a new note to firebase
-  const handleSave = () => {
-    if (note.content && note.title) {
-      push(ref(database, "items/"), note);
+  // Save a new note to firebase, with error if left empty
+  const handleSave = (title, content) => {
+    if (title && content) {
+      const newNote = { title, content };
+      push(ref(database, "items/"), newNote);
     } else {
       Alert.alert("Virhe", "Kirjoita muistiinpanon otsikko ja sisältö.");
     }
   };
 
-  // Delete a note from Firebase
+  // Delete a note from Firebase, with alert prompt
   const handleDelete = (index) => {
     Alert.alert(
       "Varmista Poisto",
@@ -96,23 +104,21 @@ export default function ListScreen() {
     <View style={styles.container}>
       {/* Input fields for title and content */}
       <View style={styles.header}>
-        <View style={styles.inputSection}>
-          <TextInput
-            style={styles.input}
-            placeholder="Otsikko"
-            onChangeText={(text) => setNote({ ...note, title: text })}
-            value={note.title}
-          />
-          <TextInput
-            style={styles.textArea}
-            placeholder="Sisältö"
-            onChangeText={(text) => setNote({ ...note, content: text })}
-            value={note.content}
-            multiline
-            numberOfLines={5}
-          />
-          {/* Save button */}
-          <Button onPress={handleSave} title="Tallenna" />
+          <View style={{flexDirection:"row"}}>
+          {/* Button to navigate to NoteScreen */}
+          <TouchableOpacity
+            onPress={() => handleAddNote("NoteScreen")}
+            style={styles.button}
+          >
+            <Text>Tee Muistiinpano</Text>
+          </TouchableOpacity>
+          {/* Button to navigate to RecipeScreen */}
+          <TouchableOpacity
+            onPress={() => handleAddNote("RecipeScreen")}
+            style={styles.button}
+          >
+            <Text>Tee Resepti</Text>
+          </TouchableOpacity>
         </View>
       </View>
       {/* Line separator */}
@@ -120,13 +126,15 @@ export default function ListScreen() {
 
       {/* List of notes */}
       <FlatList
-        style={{padding: 10}}
+        style={{ padding: 10 }}
         data={items}
         renderItem={({ item, index }) => (
-          <View style={styles.listContainer}>
+          <View style={{flex: 1, backgroundColor:"##fff", padding: 5}}>
+            <View style={styles.separator} />
             <Text style={styles.titleText}>{item.title}</Text>
             <Text style={styles.contentText}>{item.content}</Text>
-            <Button title="Poista" onPress={() => handleDelete(index)}/>
+            <TouchableOpacity style={styles.button} onPress={() => handleDelete(index)}><Text>Poista</Text></TouchableOpacity>
+            <View style={styles.separator} />
           </View>
         )}
         keyExtractor={(item, index) => index.toString()}
@@ -159,28 +167,17 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     alignSelf: "center",
   },
-  saveButton: {
-    flex: 1, // Take 1 part of the row
+  button: {
+    flex: 2,
+    height: 40,
+    margin: 1,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 5,
+    backgroundColor: "#1fb9fc",
     borderRadius: 5,
   },
-  textArea: {
-    width: "100%",
-    height: 100,
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 5,
-    borderRadius: 5,
-    textAlignVertical: "top",
-  },
+
   listContainer: {
     paddingBottom: 20,
   },

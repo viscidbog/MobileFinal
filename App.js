@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoginScreen from "./Screens/LoginScreen";
 import RecipeScreen from "./Screens/RecipeScreen";
 import ListScreen from "./Screens/ListScreen";
-import HomeScreen from "./Screens/HomeScreen";
+import PriceScreen from "./Screens/PriceScreen";
 import NoteScreen from "./Screens/NoteScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
 import SingleRecipeScreen from "./Screens/SingleRecipeScreen";
@@ -52,11 +52,11 @@ function MainApp() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
+          if (route.name === "Pörssisähkö") {
+            iconName = focused ? "stats-chart" : "stats-chart-outline";
           } else if (route.name === "Muistiinpanot") {
             iconName = focused ? "list" : "list-outline";
-          } else if (route.name === "Calendar") {
+          } else if (route.name === "Kalenteri") {
             iconName = focused ? "calendar" : "calendar-outline";
           }
 
@@ -64,9 +64,9 @@ function MainApp() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Pörssisähkö" component={PriceScreen} />
       <Tab.Screen name="Muistiinpanot" component={ListStack} />
-      <Tab.Screen name="Calendar" component={CalendarScreen} />
+      <Tab.Screen name="Kalenteri" component={CalendarScreen} />
     </Tab.Navigator>
   );
 }

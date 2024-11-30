@@ -27,7 +27,6 @@ export default function ListScreen({ navigation }) {
   // Get the database from the firebase app
   const database = getDatabase(app);
 
-
   // Handle navigating to the RecipeScreen
   const handleAddNote = (screen) => {
     navigation.navigate(screen, {
@@ -35,7 +34,7 @@ export default function ListScreen({ navigation }) {
     });
   };
 
-  // Save a note
+  // Save a note, separate function to pass to RecipeScreen
   const saveNote = (newNote) => {
     handleSave(newNote.title, newNote.content);
   };

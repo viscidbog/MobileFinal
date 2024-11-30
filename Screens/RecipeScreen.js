@@ -10,14 +10,14 @@ export default function RecipeScreen({ navigation, route }) {
   const apiSearchUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
   const apiRandomUrl = "https://www.themealdb.com/api/json/v1/1/random.php";
 
-  const handleSave = () => {
+/*   const handleSave = () => {
     // Retrieve onSave function from route.params
     const onSave = route.params?.onSave;
     if (onSave) {
       onSave({ title, content }); // Pass the new recipe
     }
     navigation.goBack(); // Navigate back
-  };
+  }; */
 
   // Handle moving to the SingleRecipeScreen
   const handleSingleRecipe = (recipe, ingredients) => {
@@ -42,7 +42,7 @@ export default function RecipeScreen({ navigation, route }) {
     }
   };
 
-  // Calculate the number of ingredients in a meal
+  // Calculate the number of ingredients in a recipe
   // and return the count as well as a list of ingredients
   const calculateNumberOfIngredients = (meal) => {
     const ingredients = [];
@@ -61,8 +61,6 @@ export default function RecipeScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Tallenna" onPress={handleSave} />
-      <Button title="Peruuta" onPress={() => navigation.goBack()} />
       <TextInput
         placeholder="Hae reseptin nimellä:"
         style={styles.input}

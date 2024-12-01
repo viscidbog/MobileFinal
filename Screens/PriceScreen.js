@@ -4,6 +4,8 @@ import ElectricityBarChart from "../Components/BarChart";
 import addHours from "date-fns/addHours";
 
 export default function HomeScreen() {
+  // API URL. This is hardcoded here, since I couldn't get the .env file to work.
+  // Also, this API is... not very good, so that changing it would mean rewriting the whole app.
   const electricApiData = "https://api.porssisahko.net/v1/latest-prices.json";
 
   const [pricesToday, setPricesToday] = useState([]);
@@ -38,6 +40,7 @@ export default function HomeScreen() {
           splitPricesByDate(updatedData); // Split prices by date
         setPricesToday(currentDayPrices.reverse()); // Set prices for today
         setPricesTomorrow(nextDayPrices.reverse()); // Set prices for tomorrow, both reversed, since the API returns the prices in descending order
+        // These remain here for debugging purposes
         /* console.log("tänään: ", currentDayPrices);
         console.log("huomenna: ", nextDayPrices); */
       } catch (error) {
@@ -62,7 +65,7 @@ export default function HomeScreen() {
     const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD
     const nextDate = new Date(Date.now() + 24 * 60 * 60 * 1000)
       .toISOString()
-      .slice(0, 10); // Get date for the next day
+      .slice(0, 10); // Get date for the next day, also in YYYY-MM-DD
 
     const currentDayPrices = [];
     const nextDayPrices = [];

@@ -99,7 +99,7 @@ function MainApp() {
 // hide the main app when not logged in
 export default function App() {
   // State to check login status
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <NavigationContainer>

@@ -17,6 +17,7 @@ LocaleConfig.locales['fi'] = {
 };
 LocaleConfig.defaultLocale = 'fi';
 
+// CalendarScreen component. Practically does nothing save display the calendar, yet. Plan to develop this further in the future.
 export default function CalendarScreen() {
     return(
         <View style={{ flex: 1 }}>

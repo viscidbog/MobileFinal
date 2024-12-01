@@ -2,22 +2,14 @@
 import React from "react";
 import { View, Text, TextInput, Button, StyleSheet, FlatList, Image, TouchableOpacity } from "react-native";
 
-export default function RecipeScreen({ navigation, route }) {
+export default function RecipeScreen({ navigation }) {
   const [keyWord, setKeyWord] = React.useState("");
-  const [content, setContent] = React.useState("");
   const [recipes, setRecipes] = React.useState([]);
   const [emptyList, setEmptyList] = React.useState("");
+
+  // API URLs. These are hardcoded here, since I couldn't get the .env file to work.
   const apiSearchUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
   const apiRandomUrl = "https://www.themealdb.com/api/json/v1/1/random.php";
-
-/*   const handleSave = () => {
-    // Retrieve onSave function from route.params
-    const onSave = route.params?.onSave;
-    if (onSave) {
-      onSave({ title, content }); // Pass the new recipe
-    }
-    navigation.goBack(); // Navigate back
-  }; */
 
   // Handle moving to the SingleRecipeScreen
   const handleSingleRecipe = (recipe, ingredients) => {

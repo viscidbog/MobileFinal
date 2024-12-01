@@ -7,16 +7,17 @@ import NoteScreen from "./Screens/NoteScreen";
 import CalendarScreen from "./Screens/CalendarScreen";
 import SingleRecipeScreen from "./Screens/SingleRecipeScreen";
 
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { View, Text, StyleSheet } from "react-native";
 
+// Import the screens and components needed for the app
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Stack navigator for the various screens needed for the list of notes
+// Stack navigator for the various screens needed for the notes tab
 function ListStack() {
   return (
     <Stack.Navigator>
@@ -44,6 +45,15 @@ function ListStack() {
   );
 }
 
+// Custom header for the tab bar so that it renders an icon
+const HeaderWithIcon = ({ title }) => (
+  <View style={styles.listcontainer}>
+    <Ionicons name={"home"} size={20} color="black" />
+    <Text style={styles.headerText}>Kotinen -</Text>
+    <Text style={styles.headerText}>{title}</Text>
+  </View>
+);
+
 // Main app navigator for the tab bar
 function MainApp() {
   return (
@@ -64,15 +74,29 @@ function MainApp() {
         },
       })}
     >
-      <Tab.Screen name="Pörssisähkö" component={PriceScreen} />
-      <Tab.Screen name="Muistiinpanot" component={ListStack} />
-      <Tab.Screen name="Kalenteri" component={CalendarScreen} />
+      <Tab.Screen
+        name="Pörssisähkö"
+        component={PriceScreen}
+        options={{ headerTitle: () => <HeaderWithIcon title="Pörssisähkö" /> }}
+      />
+      <Tab.Screen
+        name="Muistiinpanot"
+        component={ListStack}
+        options={{
+          headerTitle: () => <HeaderWithIcon title="Muistiinpanot" />,
+        }}
+      />
+      <Tab.Screen
+        name="Kalenteri"
+        component={CalendarScreen}
+        options={{ headerTitle: () => <HeaderWithIcon title="Kalenteri" /> }}
+      />
     </Tab.Navigator>
   );
 }
 
-// The actual app component, which is separate so the login page can 
-// hide the main app
+// The actual app component, which is separate so the login page can
+// hide the main app when not logged in
 export default function App() {
   // State to check login status
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -113,5 +137,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     paddingVertical: 5,
+  },
+  headerText: {
+    marginLeft: 8,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000",
   },
 });

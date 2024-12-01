@@ -38,7 +38,7 @@ export default function SingleRecipeScreen({ navigation, route }) {
   const handleSave = (title, content) => {
     if (title && content) {
       Alert.alert(
-        "Hep!",
+        "Tallenna resepti",
         "Haluatko tallentaa reseptin?",
         [
           {
@@ -63,16 +63,18 @@ export default function SingleRecipeScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: recipe.strMealThumb }}
-        style={{ width: "100%", height: 150 }}
-      />
       <TouchableOpacity
         onPress={() =>
-          handleSave(recipe.strMeal, renderIngredientList(ingredients))
+          handleSave(recipe.strMeal, (renderIngredientList(ingredients) + "\n" + recipe.strInstructions ))
         }
       >
-        <Text style={styles.titleText}>{recipe.strMeal}</Text>
+        <Image
+          source={{ uri: recipe.strMealThumb }}
+          style={{ width: "100%", height: 150 }}
+        />
+        <Text style={styles.titleText}>
+          {recipe.strMeal} (Paina tallentaaksesi)
+        </Text>
       </TouchableOpacity>
       <View style={styles.horizontalContainer}>
         <Text style={styles.contentText}>Country: {recipe.strArea}</Text>

@@ -14,8 +14,12 @@ const ElectricityBarChart = ({ data, title }) => {
 
   // Alert to show a more detailed price
   const handlePress = (item, index) => {
+
+    // Get the label for the clicked bar
+    const label = chartData[index].label;
+
     Alert.alert(
-      `Klo: ${index}`,
+      `Klo: ${label}`,
       `${item.value} c`,
       [
       ],

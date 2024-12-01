@@ -10,6 +10,13 @@ export default function HomeScreen() {
   const [pricesTomorrow, setPricesTomorrow] = useState([]);
 
   // Fetch electric prices from the API
+
+  // **** NOTE ****
+  // The data is missing the 00:00-01:00 entry for today, when fetched after 14:00,
+  // since the first price of today is no longer delivered at that time. This was the only API I could find
+  // that I could get to work. The data is fetched from Porssisahko.net.
+  // **** NOTE ****
+
   useEffect(() => {
     const fetchElectricPrices = async () => {
       try {
@@ -21,14 +28,12 @@ export default function HomeScreen() {
         const data = await response.json();
 
         // Format the time for each price
-        const correctTimeData = data.prices.map((item) => ({
+        const updatedData = data.prices.map((item) => ({
           ...item,
           startDate: formatTime(item.startDate),
           endDate: formatTime(item.endDate),
         }));
 
-        const updatedData = correctTimeData.slice(1, -1);
-   
         const { currentDayPrices, nextDayPrices } =
           splitPricesByDate(updatedData); // Split prices by date
         setPricesToday(currentDayPrices.reverse()); // Set prices for today
@@ -76,16 +81,26 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.smallerContainer}>
       <Text>Tänään</Text>
       <ElectricityBarChart data={pricesToday} />
+      </View>
+      <View style={styles.smallerContainer}>
       <Text>Huomenna</Text>
       <ElectricityBarChart data={pricesTomorrow} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  smallerContainer: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",

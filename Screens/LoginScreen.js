@@ -5,6 +5,9 @@ export default function LoginScreen({ setIsLoggedIn }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // Function to handle the login. Very quick and dirty, but it's not like
+  // this app is going to contain anything sensitive. If someone wants to
+  // find out what we're having for dinner, they're welcome to.
   const handleLogin = () => {
     if (username === "User" && password === "1234") {
       setIsLoggedIn(true);
